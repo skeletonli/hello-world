@@ -1,18 +1,14 @@
 FROM ubuntu:16.04
-RUN apt-get update -y && \
-apt-get install -y vim && \
-apt-get install -y software-properties-common && \
-add-apt-repository ppa:jonathonf/python-3.6
-
-RUN apt-get update
-RUN apt-get install -y build-essential python3.6 python3.6-dev python3-pip python3.6-venv
-
-# update pip
-RUN python3.6 -m pip install pip --upgrade && \
-python3.6 -m pip install wheel
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:jonathonf/python-3.6 -y && \
+    apt-get update && \
+    apt-get install -y git python3.6 python3-pip nginx vim supervisor mongodb libsm6 libxrender1 libxext-dev ffmpeg redis-server && \
+    pip3 install --upgrade -i https://pypi.tuna.tsinghua.edu.cn/simple pip setuptools && \
 
 RUN apt-get update -y && \
-apt-get install -y locales
+    apt-get install -y locales
 
 RUN locale-gen en_US.UTF-8
 
