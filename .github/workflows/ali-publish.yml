@@ -1,0 +1,37 @@
+name: alici
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy-image:
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取master分支
+      - name: Checkout
+        uses: actions/checkout@master
+      # 设置qemu来编译多个平台的镜像
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      # 设置buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      # 配置缓存加快编译速度
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: BuildDockerImage
+        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Publish to Docker Repository
+        uses: skeletonli/hello-world@master
+        with:
+          name: registry.cn-hangzhou.aliyuncs.com/lightencancer/testdocker # docker image 的名字
+          username: ${{ secrets.ALIYUN_IMAGES_HUB_USER_NAME }} # 用户名
+          password: ${{ secrets.ALIYUN_IMAGES_HUB_TOKEN }} # 密码
+          registry: registry.cn-hangzhou.aliyuncs.com # 阿里巴巴的 Docker Hub
+          dockerfile: Dockerfile # 指定 Dockerfile 的位置
+          tag_names: true # 是否将 release 的 tag 作为 docker image 的 tag
