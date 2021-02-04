@@ -27,12 +27,11 @@ jobs:
       - name: Publish to Docker Repository
         uses: docker/build-push-action@v1
         with:
-          registry: 'registry.cn-hangzhou.aliyuncs.com'
-          namespaces: 'lightencancer'
-          repository: 'lightencancer/testdocker'
+          registry: registry.cn-hangzhou.aliyuncs.com       
+          repository: lightencancer/testdocker
           username: ${{ secrets.ALIYUN_IMAGES_HUB_USER_NAME }} # 用户名
           password: ${{ secrets.ALIYUN_IMAGES_HUB_TOKEN }} # 密码
-          image_version: 'v1.0'
-          docker_file: '.'
+          tag_with_sha: true
+          path: 'docker'
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
