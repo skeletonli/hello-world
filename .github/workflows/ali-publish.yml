@@ -32,6 +32,7 @@ jobs:
           username: ${{ secrets.ALIYUN_IMAGES_HUB_USER_NAME }} # 用户名
           password: ${{ secrets.ALIYUN_IMAGES_HUB_TOKEN }} # 密码
           tag_with_sha: true
-          path: 'docker'
+          image_version: 'v1.0'
+          docker_file: '.'
       - name: Get pre step result output image_pull_url
         run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
