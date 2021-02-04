@@ -23,11 +23,9 @@ jobs:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx-
-      - name: BuildDockerImage
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+            ${{ runner.os }}-buildx-      
       - name: Publish to Docker Repository
-        uses: skeletonli/hello-world@master
+        uses: docker/build-push-action@v1
         with:
           registry_url: 'registry.cn-hangzhou.aliyuncs.com'
           namespaces: 'lightencancer'
