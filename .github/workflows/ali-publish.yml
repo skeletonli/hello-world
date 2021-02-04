@@ -27,10 +27,10 @@ jobs:
       - name: Publish to Docker Repository
         uses: docker/build-push-action@v1
         with:
-          registry_url: 'registry.cn-hangzhou.aliyuncs.com'
+          registry: 'registry.cn-hangzhou.aliyuncs.com'
           namespaces: 'lightencancer'
-          repository_name: 'testdocker'
-          user_name: ${{ secrets.ALIYUN_IMAGES_HUB_USER_NAME }} # 用户名
+          repository: 'lightencancer/testdocker'
+          username: ${{ secrets.ALIYUN_IMAGES_HUB_USER_NAME }} # 用户名
           password: ${{ secrets.ALIYUN_IMAGES_HUB_TOKEN }} # 密码
           image_version: 'v1.0'
           docker_file: '.'
