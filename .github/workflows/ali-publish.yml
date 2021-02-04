@@ -29,9 +29,12 @@ jobs:
       - name: Publish to Docker Repository
         uses: skeletonli/hello-world@master
         with:
-          name: registry.cn-hangzhou.aliyuncs.com/lightencancer/testdocker # docker image 的名字
-          username: ${{ secrets.ALIYUN_IMAGES_HUB_USER_NAME }} # 用户名
+          registry_url: 'registry.cn-hangzhou.aliyuncs.com'
+          namespaces: 'lightencancer'
+          repository_name: 'testdocker'
+          user_name: ${{ secrets.ALIYUN_IMAGES_HUB_USER_NAME }} # 用户名
           password: ${{ secrets.ALIYUN_IMAGES_HUB_TOKEN }} # 密码
-          registry: registry.cn-hangzhou.aliyuncs.com # 阿里巴巴的 Docker Hub
-          dockerfile: Dockerfile # 指定 Dockerfile 的位置
-          tag_names: true # 是否将 release 的 tag 作为 docker image 的 tag
+          image_version: 'v1.0'
+          docker_file: '.'
+      - name: Get pre step result output image_pull_url
+        run: echo "The time was ${{ steps.buildAndPushImage.outputs.image_pull_url }}"
